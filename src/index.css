@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+RO:wght@100..400&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.font-playwight {
+  font-family: "Lora", serifư;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: italic;
+  
+}
+
+body {
+  background-color: #000000;
+}
+
+::-webkit-scrollbar:horizontal {
+  display: none;
+}
+
+/* Phần bao ngoài thanh cuộn */
+::-webkit-scrollbar {
+  width: 8px; /* áp dụng cho scroll Y */
+  height: 8px; /* áp dụng cho scroll X */
+}
+
+/* Phần cuộn (thumb) */
+::-webkit-scrollbar-thumb {
+  background-color: #848ee6;
+  border-radius: 4px;
+}
+
+/* Khi hover vào thumb */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #848ee6;
+}
+
+/* Optional: Phần track */
+::-webkit-scrollbar-track {
+  background-color: #5046e5;
+  border-radius: 4px;
+}
+
+
+:where(.css-dev-only-do-not-override-1v5z42l).ant-modal .ant-modal-content {
+  padding: 0;
+}
+
+:where(.css-dev-only-do-not-override-1v5z42l).ant-modal .ant-modal-close {
+  /* color: #fff;
+  top: -2px;
+  right: -2px;
+  transform: scale(1.5); */
+  display: none;
+}
