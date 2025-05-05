@@ -17,7 +17,7 @@ export default function MovieSection({ title, data, loading, error, slug }: Prop
 
     const navigate = useNavigate()
     const handleClick = (slug: string) => {
-        navigate(`/phim/${slug}`)
+        navigate(`/movie/${slug}`)
     }
 
     if (loading) return <div>

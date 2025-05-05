@@ -6,8 +6,9 @@ import { Categories, Countries, IMovies } from "../interfaces/interfaces";
 import { Radio } from "antd";
 import { getYearToNow } from "../utils/utils";
 import { LANGUAGES } from "../constants/languages";
-import CardMovie from "../components/CardMovie";
 import CardSkeleton from "../components/CardSkeleton";
+import Loading from "../components/Loading";
+import MovieCard from "../components/MovieCard";
 
 export default function FilterPage() {
     const [tab, setTab] = useState<"categories" | "year" | "orther">('categories')
@@ -20,7 +21,7 @@ export default function FilterPage() {
     const { years } = getYearToNow();
     const [yearValue, setYearValue] = useState('');
     const [sortlang, setSortLang] = useState<'vietsub' | 'thuyet-minh' | 'long-tieng' | ''>('')
-    const [showDropdown, setShowDropdown] = useState(false)
+    const [showDropdown, setShowDropdown] = useState(true)
 
     const { data: filterData, loading: filterLoading, error: filterError, refetch: filterRefetch, reset } = useFetch(() => filterMovies({
         category: categoryValue,
@@ -42,8 +43,6 @@ export default function FilterPage() {
 
     console.log(filterData, "filterData");
 
-
-
     const handleSetTab = (tabName: "categories" | "year" | "orther") => {
         setTab(tabName)
     }
@@ -60,8 +59,13 @@ export default function FilterPage() {
 
     return (
         <div className="max-w-7xl mx-auto">
-            <div className="w-full pt-40 flex gap-5">
-                <div className="w-1/4">
+            {allCategoriesLoading && allCountriesLoading ? (
+                <Loading />
+            ) : allCategoriesError && allCountriesError ? (
+                <p>Error</p>
+            ) : allCategories && allCountries &&(
+            <div className="w-full pt-20 md:pt-40 grid-cols-1 md:flex gap-5 justify-center px-3 lg:px-0">
+                <div className="w-full md:w-2/6 lg:w-2/6">
                     <div className="w-full bg-[#202938] rounded-xl p-5">
                         <div className="flex items-center justify-between">
                             <p className="text-lg text-white flex items-center gap-2"><SlidersHorizontal className="size-4" /> Bộ lọc</p>
@@ -135,7 +139,7 @@ export default function FilterPage() {
                         </div>
                     </div>
                 </div>
-                <div className="w-3/4">
+                <div className="w-full md:w-4/6 lg:w-4/6 mt-5 md:mt-0">
                     <div className="flex items-center gap-2 mb-5">
                         <button className={`bg-[#1d2635] px-2 py-1 text-gray-400 text-sm rounded-full flex items-center gap-1 ${categoryValue.trim() ? '' : 'hidden'}`}
                             onClick={() => setCategoryValue('')}
@@ -176,9 +180,9 @@ export default function FilterPage() {
                         ) : filterError ? (
                             <p>Error</p>
                         ) : filterData?.length !== 0 ? (
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 w-full place-items-center">
                                 {filterData?.map((item: IMovies, index: number) => (
-                                    <CardMovie {...item} key={index} />
+                                    <MovieCard {...item} key={index} />
                                 ))}
                             </div>
                         ) : categoryValue === '' && countriesValue === '' && sortlang === '' && yearValue === '' ? (
@@ -193,6 +197,7 @@ export default function FilterPage() {
                     </div>
                 </div>
             </div>
+            )}
         </div>
     )
 }

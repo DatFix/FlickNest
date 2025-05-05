@@ -4,6 +4,8 @@ import DetailsPage from "../pages/DetailsPage";
 import WatchPage from "../pages/WatchPage";
 import SearchPage from "../pages/SearchPage";
 import FilterPage from "../pages/FilterPage";
+import GenresPage from "../pages/GenresPage";
+import FavoritesPage from "../pages/FavoritesPage";
 
 export default function AppRouter() {
   return (
@@ -14,6 +16,8 @@ export default function AppRouter() {
             <Route path="/watch/:slug" element={<WatchPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/filter" element={<FilterPage />} />
+            <Route path="/movie/:slug" element={<GenresPage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
         </Routes>
     </div>
   )

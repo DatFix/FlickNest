@@ -6,10 +6,10 @@ import MovieSection from "../components/MovieSection"
 
 export default function HomePage() {
     const { data: trendingMovie, loading: trendingLoading, error: trendingError } = useFetch(() => getTrendingMovie())
-    const { data: singleMovies, loading: singleLoading, error: singleError } = useFetch(() => getGenreMovie("phim-le"))
-    const { data: seriesMovies, loading: seriesLoading, error: seriesError } = useFetch(() => getGenreMovie("phim-bo"))
-    const { data: showMovies, loading: showLoading, error: showError } = useFetch(() => getGenreMovie("tv-shows"))
-    const { data: animationMovies, loading: animationLoading, error: animationError } = useFetch(() => getGenreMovie("hoat-hinh"))
+    const { data: singleMovies, loading: singleLoading, error: singleError } = useFetch(() => getGenreMovie("phim-le", 10))
+    const { data: seriesMovies, loading: seriesLoading, error: seriesError } = useFetch(() => getGenreMovie("phim-bo", 10))
+    const { data: showMovies, loading: showLoading, error: showError } = useFetch(() => getGenreMovie("tv-shows", 10))
+    const { data: animationMovies, loading: animationLoading, error: animationError } = useFetch(() => getGenreMovie("hoat-hinh", 10))
 
     return (
         <div>

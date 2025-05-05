@@ -9,6 +9,7 @@ import { GENRES } from "../constants/genre";
 import MovieCard from "../components/MovieCard";
 import CardSkeleton from "../components/CardSkeleton";
 import { IMovies } from "../interfaces/interfaces";
+import Loading from "../components/Loading";
 
 export default function DetailsPage() {
     const { slug } = useParams<{ slug: string }>();
@@ -56,7 +57,7 @@ export default function DetailsPage() {
     return (
         <div className="min-h-screen flex items-start justify-center">
             {detailsLoading ? (
-                <p className="text-white">Loading...</p>
+                <Loading />
             ) : detailsError ? (
                 <p className="text-red-500">Error</p>
             ) : details && (
@@ -80,7 +81,7 @@ export default function DetailsPage() {
                     ) : (
                         <div className="min-h-screen bg-black/20"></div>
                     )}
-                    <div className='md:absolute inset-0 bg-gradient-to-t from-black to-black/50 '></div>
+                    <div className='md:absolute inset-0 bg-gradient-to-t from-black to-black/50'></div>
 
                     {/* Movie Info */}
                     <div className="md:absolute top-[20%] left-[5%] right-[5%] md:left-[8%] text-white p-3 md:p-0">
@@ -107,7 +108,7 @@ export default function DetailsPage() {
                                 <Youtube size={16} /> Xem trailer
                             </button>
                             <Tooltip title="Thêm vào yêu thích" color="#ff630d">
-                                <button className="border-2 border-[#ff630d] p-1 rounded">
+                                <button className="border-2 border-[#ff630d] p-2">
                                     <Bookmark size={18} color="#ff630d" />
                                 </button>
                             </Tooltip>
@@ -177,7 +178,7 @@ export default function DetailsPage() {
                     <div className="max-w-7xl mx-auto">
                         {similar.length > 0 ? (
                             <div className="px-5 md:px-3 lg:px-0">
-                                <h1 className="text-white text-xl font-semibold mt-10 font-playwight z-50 relative">Phim Tương Tự</h1>
+                                <h1 className="text-white text-xl font-semibold mt-5 font-playwight z-50 relative">Phim Tương Tự</h1>
 
                                 <div className="w-full my-3 md:my-5 relative">
                                     <div className="flex overflow-x-auto overflow-y-hidden pb-4 scrollbar-hide gap-4">

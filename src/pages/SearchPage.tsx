@@ -29,10 +29,10 @@ export default function SearchPage() {
 
     return (
         <div className="min-h-screen max-w-7xl mx-auto">
-            <div className="pt-40 max-w-5xl mx-auto flex justify-center items-center">
+            <div className="pt-40 max-w-5xl mx-auto flex justify-center items-center px-3 md:px-0">
                 <input
                     type="text"
-                    className="text-4xl text-gray-400 font-semibold bg-transparent w-full pb-3 focus:outline-none border-b-2 focus:border-[#ff630d]"
+                    className="text-2xl md:text-4xl text-gray-400 font-semibold bg-transparent w-full pb-3 focus:outline-none border-b-2 border-gray-400 focus:border-[#ff630d]"
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -41,7 +41,7 @@ export default function SearchPage() {
             </div>
             <div>
                 {searchLoading ? (
-                    <div className="mt-5 w-full overflow-x-auto flex lg:gap-5 gap-5 px-5 md:px-10 lg:px-0">
+                    <div className="mt-5 w-full overflow-x-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-5 gap-5 px-5 md:px-10 lg:px-0">
                         {[...Array(5)].map((_, index) => (
                             <CardSkeleton key={index} />
                         ))}
@@ -56,8 +56,10 @@ export default function SearchPage() {
                             </div>
                         ))}
                     </div>
-                ) : searchQuery.trim() !== '' && (
-                    <h2 className="font-playwight text-gray-400 text-center my-5">Không tìm thấy phim nào</h2>
+                ) : searchQuery.trim() !== '' ? (
+                    <h2 className="text-gray-400 text-center my-5">Không tìm thấy phim nào</h2>
+                ): (
+                    <h2 className="text-gray-400 text-center my-5">Nhập từ khoá để tìm kiếm</h2>
                 )}
 
             </div>

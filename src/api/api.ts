@@ -30,9 +30,9 @@ export const getTrendingMovie = async () => {
     }
 }
 
-export const getGenreMovie = async (genreName: string) => {
+export const getGenreMovie = async (genreName: string, limit: number) => {
     try {
-        const response = await axios.get(`${BASE_URL_API_2}/danh-sach/${genreName}`);
+        const response = await axios.get(`${BASE_URL_API_2}/danh-sach/${genreName}?limit=${limit}`);
 
         const genreMovie = await Promise.all(response.data.data.items.map(async (item: any) => {
             const response = await axios.get(`${BASE_URL_API}/phim/${item.slug}`);
@@ -109,8 +109,10 @@ export const getAllCountries = async () => {
 }
 
 export const filterMovies = async ({ category, country, sort_lang, year, }: { category: string; country: string; sort_lang: string; year: string }) => {
+    console.log(`${BASE_URL_API_2}/tim-kiem?keyword=a&category=${category}&sort_lang=${sort_lang}&country=${country}&year=${year}&limit=12`);
     try {
         const response = await axios.get(`${BASE_URL_API_2}/tim-kiem?keyword=a&category=${category}&sort_lang=${sort_lang}&country=${country}&year=${year}&limit=12`)
+        
         const filterMovies = await Promise.all(response.data.data.items.map(async (item: any) => {
             const response = await axios.get(`${BASE_URL_API}/phim/${item.slug}`);
             
