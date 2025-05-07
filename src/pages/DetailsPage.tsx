@@ -99,12 +99,12 @@ export default function DetailsPage() {
                         <div className="flex flex-wrap items-center gap-3 mb-6">
                             <button
                                 onClick={() => navigate(`/watch/${data?.movie.slug}`)}
-                                className="bg-[#ff630d] hover:bg-[#f77b39] text-black font-bold px-4 py-2 flex items-center gap-2 uppercase text-sm rounded">
+                                className="bg-[#ff630d] hover:bg-[#f77b39] text-black font-bold px-4 py-2 flex items-center gap-2 uppercase text-sm">
                                 <Play size={16} /> Xem ngay
                             </button>
                             <button
                                 onClick={() => showModal(data?.movie.trailer_url)}
-                                className="bg-[#ff630d] hover:bg-[#f77b39] text-black font-bold px-4 py-2 flex items-center gap-2 uppercase text-sm rounded">
+                                className="bg-[#ff630d] hover:bg-[#f77b39] text-black font-bold px-4 py-2 flex items-center gap-2 uppercase text-sm">
                                 <Youtube size={16} /> Xem trailer
                             </button>
                             <Tooltip title="Thêm vào yêu thích" color="#ff630d">

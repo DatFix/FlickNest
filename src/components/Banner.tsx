@@ -19,7 +19,7 @@ const Banner: React.FC = () => {
     const { onClick } = props;
     return (
       <div
-        className="absolute top-1/2 md:left-2 -left-1 -translate-y-1/2 z-10 cursor-pointer"
+        className="absolute top-1/2 md:left-2 -left-1 -translate-y-1/2 z-10 cursor-pointer hidden md:block"
         onClick={onClick}
       >
         <ChevronLeft absoluteStrokeWidth size={40} strokeWidth={2} className='text-white/80' />
@@ -31,7 +31,7 @@ const Banner: React.FC = () => {
     const { onClick } = props;
     return (
       <div
-        className="absolute top-1/2 md:right-2 -right-2 -translate-y-1/2 z-10 cursor-pointer"
+        className="absolute top-1/2 md:right-2 -right-2 -translate-y-1/2 z-10 cursor-pointer hidden md:block"
         onClick={onClick}
       >
         <ChevronRight absoluteStrokeWidth size={40} strokeWidth={2} className='text-white/80' />

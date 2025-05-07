@@ -73,7 +73,7 @@ export const getSimilarMovie = async (type: string, country: string) => {
 
 export const searchMovie = async ({ query }: { query: string }) => {
     try {
-        const response = await axios.get(`${BASE_URL_API_2}/tim-kiem?keyword=${query}&limit=10`);
+        const response = await axios.get(`${BASE_URL_API_2}/tim-kiem?keyword=${query}&limit=24`);
         const searchMovie = await Promise.all(response.data.data.items.map(async (item: any) => {
             const response = await axios.get(`${BASE_URL_API}/phim/${item.slug}`);
             return response.data;

@@ -3,8 +3,13 @@ import { IMovies } from "../interfaces/interfaces";
 import { Bookmark, Play, ScanSearch, Star, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { scrollToTop } from "../utils/utils";
 
-export default function MovieCard({ movie }: IMovies) {
+interface MovieCardProps extends IMovies {
+  refetchFavorites?: () => Promise<void>;
+}
+
+export default function MovieCard({ movie, refetchFavorites }: MovieCardProps) {
   const [viewInfor, setViewInfor] = useState(false);
   const width = window.innerWidth;
   const [bookmarked, setBookmarked] = useState(false);
@@ -16,37 +21,47 @@ export default function MovieCard({ movie }: IMovies) {
 
   const handleBookmark = () => {
     setBookmarked(!bookmarked);
+    if (refetchFavorites) {
+      refetchFavorites();
+      console.log("Clicked");
+      
+    }
   };
 
   useEffect(() => {
-    console.log(bookmarked);
+    const existing = JSON.parse(localStorage.getItem("favorites") || "[]");
 
-    if (bookmarked) {
-      const existing = JSON.parse(localStorage.getItem("favorites") || "[]");
-      const alreadyExists = existing.some(
-        (item: { _id: string }) => item._id === movie._id
+    const alreadyExists = existing.some(
+      (item: { movie: { _id: string } }) => item.movie._id === movie._id
+    );
+
+    let updated;
+
+    if (alreadyExists) {
+      // Nếu đã tồn tại thì xoá
+      updated = existing.filter(
+        (item: { movie: { _id: string } }) => item.movie._id !== movie._id
       );
-      if (!alreadyExists) {
-        const newItem = {
-          movie: movie,
-        };
-        existing.push(newItem);
-        localStorage.setItem("favorites", JSON.stringify(...[existing]));
-      }
     } else {
-      const existing = JSON.parse(localStorage.getItem("favorites") || "[]");
-      const updated = existing.filter(
-        (item: { _id: string }) => item._id !== movie._id
-      );
-      localStorage.setItem("favorites", JSON.stringify(updated));
+      // Nếu chưa có thì thêm
+      updated = [...existing, { movie }];
     }
+    
+
+    localStorage.setItem("favorites", JSON.stringify(updated));
   }, [bookmarked]);
 
+
+  const respone = JSON.parse(localStorage.getItem("favorites") || "[]")
+
   const router = useNavigate();
+
+  console.log(respone.some((item: any) => item.movie._id === movie._id));
+
   return (
     <div
       className="relative group flex-shrink-0 w-[10rem] md:w-[15rem]"
-      onClick={() => router(`/details/${movie.slug}`)}
+      onClick={() => {router(`/details/${movie.slug}`), scrollToTop()}}
     >
       <div className="w-full relative">
         <img
@@ -78,14 +93,12 @@ export default function MovieCard({ movie }: IMovies) {
         </div>
       </div>
       <div
-        className={`absolute bg-black inset-0 opacity-0 transition-all duration-100 cursor-pointer md:group-hover:opacity-90 ${
-          viewInfor ? "opacity-100" : ""
-        }`}
+        className={`absolute bg-black inset-0 opacity-0 transition-all duration-100 cursor-pointer md:group-hover:opacity-90 ${viewInfor ? "opacity-100" : ""
+          }`}
       ></div>
       <div
-        className={`absolute flex flex-col justify-between p-3 top-0 opacity-0 md:group-hover:opacity-100 cursor-pointer transition-all duration-100 left-0 right-0 bottom-0 z-10 ${
-          viewInfor ? "opacity-100" : ""
-        }`}
+        className={`absolute flex flex-col justify-between p-3 top-0 opacity-0 md:group-hover:opacity-100 cursor-pointer transition-all duration-100 left-0 right-0 bottom-0 z-10 ${viewInfor ? "opacity-100" : ""
+          }`}
       >
         <div>
           <p className="text-white text-sm font-semibold">{movie.name}</p>
@@ -95,7 +108,7 @@ export default function MovieCard({ movie }: IMovies) {
           <p className="text-[#ff630d] text-[12px]">
             {movie.quality} - {movie.lang} -
             {movie.episode_current?.includes(" Hoàn Tất") ||
-            movie.episode_current?.includes("Full")
+              movie.episode_current?.includes("Full")
               ? movie.episode_current
               : ` ${movie.episode_current} / ${movie.episode_total}`}
           </p>
@@ -118,17 +131,18 @@ export default function MovieCard({ movie }: IMovies) {
             </button>
           </Tooltip>
 
+          {/* <h1 className="text-white text-3xl">sdkl {respone.some((item: any) => item.movie._id === movie._id)}</h1> */}
+
           <Tooltip
             placement="top"
-            title={`${bookmarked ? "Đã yêu thích" : "Yêu thích"}`}
+            title={`${bookmarked || respone.some((item: any) => item.movie._id === movie._id) ? "Đã yêu thích" : "Yêu thích"}`}
             trigger={["hover"]}
             color="#ff630d"
             overlayInnerStyle={{ color: "#fff" }}
           >
             <button
-              className={`${
-                bookmarked ? "bg-[#ff630d]" : ""
-              } p-1 transition-all duration-200`}
+              className={`${bookmarked || respone.some((item: any) => item.movie._id === movie._id) ? "bg-[#ff630d]" : ""
+                } p-1 transition-all duration-200`}
               onClick={(e) => {
                 e.stopPropagation();
                 handleBookmark();
@@ -136,7 +150,7 @@ export default function MovieCard({ movie }: IMovies) {
             >
               <Bookmark
                 absoluteStrokeWidth
-                color={`${bookmarked ? "#fff" : "#ff630d"}`}
+                color={`${bookmarked || respone.some((item: any) => item.movie._id === movie._id) ? "#fff" : "#ff630d"}`}
               />
             </button>
           </Tooltip>

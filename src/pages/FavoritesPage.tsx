@@ -9,6 +9,7 @@ export default function FavoritesPage() {
     data: favoritesData,
     loading: favoritesLoading,
     error: favoritesError,
+    refetch: refetchFavorites,
   } = useFetch(getFavoriteMovie);
   console.log(favoritesData, "favoritesData");
 
@@ -25,7 +26,7 @@ export default function FavoritesPage() {
             <div className="w-full my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {favoritesData.map((item: IMovies, index: number) => (
               <div key={index} className="mx-auto">
-                <MovieCard {...item} />
+                <MovieCard {...item} refetchFavorites={refetchFavorites} />
               </div>
             ))}
           </div>

@@ -22,6 +22,13 @@ export default function FilterPage() {
     const [yearValue, setYearValue] = useState('');
     const [sortlang, setSortLang] = useState<'vietsub' | 'thuyet-minh' | 'long-tieng' | ''>('')
     const [showDropdown, setShowDropdown] = useState(true)
+    const width = window.innerWidth;
+
+    useEffect(() => {
+        if (width <= 480){
+            setShowDropdown(false)
+        }
+    }, [width])
 
     const { data: filterData, loading: filterLoading, error: filterError, refetch: filterRefetch, reset } = useFetch(() => filterMovies({
         category: categoryValue,
@@ -58,7 +65,7 @@ export default function FilterPage() {
     }, [allCategories, allCountries])
 
     return (
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto min-h-screen">
             {allCategoriesLoading && allCountriesLoading ? (
                 <Loading />
             ) : allCategoriesError && allCountriesError ? (
@@ -66,7 +73,7 @@ export default function FilterPage() {
             ) : allCategories && allCountries &&(
             <div className="w-full pt-20 md:pt-40 grid-cols-1 md:flex gap-5 justify-center px-3 lg:px-0">
                 <div className="w-full md:w-2/6 lg:w-2/6">
-                    <div className="w-full bg-[#202938] rounded-xl p-5">
+                    <div className="w-full bg-[#202938] rounded-xl p-5 mb-5">
                         <div className="flex items-center justify-between">
                             <p className="text-lg text-white flex items-center gap-2"><SlidersHorizontal className="size-4" /> Bộ lọc</p>
                             <button onClick={() => setShowDropdown(!showDropdown)}><ChevronDown className="text-gray-400" /></button>

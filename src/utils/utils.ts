@@ -7,4 +7,6 @@ export const getYearToNow = () => {
     }
 }
 
-
+export const scrollToTop = () => {
+    window.scrollTo({ top: 0});
+}
