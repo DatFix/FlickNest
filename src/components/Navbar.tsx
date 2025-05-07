@@ -8,6 +8,7 @@ import {
   Tv,
   X,
   PawPrint,
+  Heart,
 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +29,7 @@ export default function Navbar() {
       icon: <SlidersHorizontal size={16} />,
       path: "/filter",
     },
+    { label: "Yêu Thích", icon: <Heart size={16} />, path: "/favorites" },
     { label: "Tìm Kiếm", icon: <Search size={16} />, path: "/search" },
   ];
 
