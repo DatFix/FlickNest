@@ -2,9 +2,8 @@ import { Tooltip } from "antd";
 import { IMovies } from "../interfaces/interfaces";
 import { Bookmark, Play, ScanSearch, Star, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { scrollToTop } from "../utils/utils";
-import { toggleFavoriteMovie } from "../api/firebase";
 
 interface MovieCardProps extends IMovies {
   refetchFavorites?: () => Promise<void>;
@@ -17,14 +16,50 @@ export default function MovieCard({ movie, refetchFavorites }: MovieCardProps) {
 
   const handleViewInfor = () => {
     setViewInfor(!viewInfor);
+    console.log(viewInfor);
   };
 
-  const handleBookmark = async () => {
+  const handleBookmark = () => {
     setBookmarked(!bookmarked);
-    await toggleFavoriteMovie(movie);
   };
+
+  useEffect(() => {
+    const existing = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    const alreadyExists = existing.some(
+      (item: { movie: { _id: string } }) => item.movie._id === movie._id
+    );
+
+    let updated;
+
+    if (alreadyExists) {
+      // Nếu đã tồn tại thì xoá
+      updated = existing.filter(
+        (item: { movie: { _id: string } }) => item.movie._id !== movie._id
+      );
+    } else {
+      // Nếu chưa có thì thêm
+      updated = [...existing, { movie }];
+    }
+
+
+    localStorage.setItem("favorites", JSON.stringify(updated));
+  }, [bookmarked]);
+
+  const respone = JSON.parse(localStorage.getItem("favorites") || "[]")
 
   const router = useNavigate();
+
+  console.log(respone.some((item: any) => item.movie._id === movie._id));
+
+  useEffect(() => {
+    if (bookmarked && respone.some((item: any) => item.movie._id === movie._id)) {
+      if (refetchFavorites) {
+        refetchFavorites();
+
+      }
+    }
+  }, [respone])
 
   return (
     <div

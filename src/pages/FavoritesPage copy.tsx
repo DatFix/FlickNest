@@ -1,7 +1,8 @@
-import { getFavoriteMovies } from "../api/firebase";
+import { getFavoriteMovie } from "../api/localstorage";
 import Loading from "../components/Loading";
 import MovieCard from "../components/MovieCard";
 import useFetch from "../hooks/useFetch";
+import { IMovies } from "../interfaces/interfaces";
 
 export default function FavoritesPage() {
   const {
@@ -9,7 +10,7 @@ export default function FavoritesPage() {
     loading: favoritesLoading,
     error: favoritesError,
     refetch: refetchFavorites,
-  } = useFetch(getFavoriteMovies);
+  } = useFetch(getFavoriteMovie);
   console.log(favoritesData, "favoritesData");
 
   return (
@@ -23,7 +24,7 @@ export default function FavoritesPage() {
           <div>
             <h1 className="text-white text-xl font-semibold mt-10 font-playwight">Yêu thích</h1>
             <div className="w-full my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-            {favoritesData.map((item: any, index: number) => (
+            {favoritesData.map((item: IMovies, index: number) => (
               <div key={index} className="mx-auto">
                 <MovieCard {...item} refetchFavorites={refetchFavorites} />
               </div>
